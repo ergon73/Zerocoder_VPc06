@@ -1,7 +1,15 @@
+"""
+Учебный проект для демонстрации работы с PostgreSQL через psycopg2.
+Скрипт добавляет пользователей и заказы, затем выводит агрегированный отчёт.
+"""
 import psycopg2
 from postgres_driver import PostgresDriver
 
 def main():
+    """
+    Основная функция программы.
+    Создаёт пользователей, добавляет заказы и выводит итоговый отчёт.
+    """
     try:
         # Используем контекстный менеджер для гарантии закрытия соединения
         with PostgresDriver() as driver:
@@ -23,8 +31,10 @@ def main():
 
     except psycopg2.Error as e:
         print(f"Произошла ошибка базы данных: {e}")
-    except Exception as e:
-        print(f"Произошла непредвиденная ошибка: {e}")
+    except (ValueError, TypeError, AttributeError) as e:
+        print(f"Произошла ошибка в данных: {e}")
+    except OSError as e:
+        print(f"Произошла системная ошибка: {e}")
 
 
 if __name__ == "__main__":
